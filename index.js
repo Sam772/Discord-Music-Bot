@@ -96,4 +96,4 @@ client.on('message', message => {
 });
 
 // Client login token last line
-client.login('ODQzOTQ4MjkxODA0NjI2OTc1.YKLSGA.OHFtIt-nDLuOkdrptTs-GurMvGI');
+// This would be a client line
