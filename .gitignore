@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/index.js
+/commands/rickroll.js
+/commands/copypasta.js
+/commands/cosmicban.js
+/commands/gru.js
