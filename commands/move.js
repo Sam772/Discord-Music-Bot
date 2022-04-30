@@ -1,7 +1,7 @@
 module.exports = {
     name: 'move',
     aliases: ['m'],
-    description: "move songs in queue",
+    description: "This command moves a song from one position to another in the queue.",
 
     execute(client, message, arguments, distube, Discord) {
         const bot = message.guild.members.cache.get(client.user.id);

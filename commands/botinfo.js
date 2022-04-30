@@ -1,16 +1,18 @@
 module.exports = {
     name: 'botinfo',
-    description: "just info for the bot",
+    description: "This command contains information about the bot.",
 
     execute(client, message, arguments, distube, Discord) {
         
+        const BotImage = new Discord.MessageAttachment('./images/bot-image.png', 'bot-image.png');
         const Embed = new Discord.MessageEmbed()
         .setColor('#4363ff')
-        .setThumbnail('https://i.imgur.com/qtt8pSe.png')
+        .attachFiles(BotImage)
+        .setThumbnail('attachment://bot-image.png')
 
         .addFields(
-            {name: 'Question Mark', value: 'A random bot'},
-            {name: 'Language', value: 'JavaScript'},
+            {name: 'Question Mark', value: 'A bot that can play music through YouTube and has other commands.'},
+            {name: 'Programming Language', value: 'JavaScript'},
             {name: 'Prefix', value: '`-`'}
         )
 
