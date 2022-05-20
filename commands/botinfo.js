@@ -3,7 +3,6 @@ module.exports = {
     description: "This command contains information about the bot.",
 
     execute(client, message, arguments, distube, Discord) {
-        
         const BotImage = new Discord.MessageAttachment('./images/bot-image.png', 'bot-image.png');
         const Embed = new Discord.MessageEmbed()
         .setColor('#4363ff')
@@ -16,6 +15,6 @@ module.exports = {
             {name: 'Prefix', value: '`-`'}
         )
 
-        message.channel.send(Embed);
+        message.channel.send({embeds: [Embed]});
     }
 }

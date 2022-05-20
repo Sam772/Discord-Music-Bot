@@ -26,6 +26,6 @@ module.exports = {
             {name: '__Skip__', value: 'Skips current song'}
         )
 
-        message.channel.send(Embed);
+        message.channel.send({embeds: [Embed]});
     }
 }
