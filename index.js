@@ -1,26 +1,24 @@
-// Reconfiguration
-const { Client, Intents } = require('discord.js');
-const { token, clientId, guildId } = require('./config.json');
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, Collection, Intents } = require('discord.js');
+const { token } = require('./config.json');
 
-// Connection to Discord
 const Discord = require('discord.js');
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 
-// Using DisTube discord.js module
 const DisTube = require('distube');
 const distube = new DisTube(client, { searchSongs: false, emitNewSongOnly: true });
 
-// Bot Prefix
 const prefix = '-';
 
-// Accessing commands folder
-const fs = require('fs');
-client.commands = new Discord.Collection();
-const files = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+client.commands = new Collection();
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-// Accessing files for commands
-for (const file of files) {
-    const command = require(`./commands/${file}`);
+for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
     client.commands.set(command.name, command);
 }
 
@@ -74,28 +72,19 @@ distube
         message.channel.send("An error encountered: " + e);
     });
 
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
 
-    // Check if user doesn't use prefix correctly
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    // Variables for commands
     const arguments = message.content.slice(prefix.length).split(/ +/);
     const cmd = arguments.shift().toLowerCase();
     const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
-    // Commands for bot
-    if (command) command.execute(client, message, arguments, distube, Discord);
-});
-
-// Slash command tester
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
-
-	const { commandName } = interaction;
-
-	if (commandName === 'server') {
-		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+    try {
+        await command.execute(client, message, arguments, distube, Discord);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
 

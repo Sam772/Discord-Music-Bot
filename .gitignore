@@ -23,6 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+/deploy-commands.js
 /config.json
 /commands/rickroll.js
 /commands/copypasta.js
